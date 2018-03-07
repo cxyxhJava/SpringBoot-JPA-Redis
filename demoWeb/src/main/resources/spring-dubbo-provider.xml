@@ -1,0 +1,25 @@
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   http://code.alibabatech.com/schema/dubbo
+	   http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+    &lt;!&ndash; 提供方应用信息，用于计算依赖关系 &ndash;&gt;
+    <dubbo:application name="${dubbo.appname}" />
+    &lt;!&ndash; 使用multicast广播注册中心暴露服务地址 &ndash;&gt;
+    <dubbo:registry protocol="${dubbo.zk}" group="${dubbo.group}" address="${dubbo.zkAddress}" />
+    &lt;!&ndash; 用dubbo协议在20880端口暴露服务 &ndash;&gt;
+    <dubbo:protocol name="${dubbo.protocolname}" port="${dubbo.port}"  />
+
+    &lt;!&ndash;提供方&ndash;&gt;
+    &lt;!&ndash; 声明需要暴露的服务接口 &ndash;&gt;
+    <dubbo:service interface="com.xinguang.tubobo.legwork.api.LegWorkToTuboboAdmin" group="${dubbo.group}" version="0.0.1" ref="legWorkToTuboboAdmin"/>
+    <bean id="legWorkToTuboboAdmin" class="com.xinguang.tubobo.legwork.impl.dubbo.LegWorkToTuboboAdminImpl"/>
+    <dubbo:service interface="com.xinguang.tubobo.legwork.api.LegToTaskCenterServiceInterface" group="${dubbo.group}" version="0.0.1" ref="legToTaskCenterService"/>
+    <bean id="legToTaskCenterService" class="com.xinguang.tubobo.legwork.impl.dubbo.LegToTaskCenterServiceImpl"/>
+</beans>-->

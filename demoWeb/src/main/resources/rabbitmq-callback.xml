@@ -1,0 +1,48 @@
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/rabbit
+		http://www.springframework.org/schema/rabbit/spring-rabbit-1.7.xsd"
+       default-lazy-init="true">
+
+    <import resource="rabbitmq-base.xml"/>
+    <rabbit:queue id="legworkTaskCallbackQueue" durable="true" auto-delete="false" exclusive="false" name="legworkTaskCallbackQueue"/>
+
+    &lt;!&ndash;用于接受task端订单处理后台的 callback 消息 &ndash;&gt;
+    <bean id="rmqTaskCallbackHandler"   class="com.xinguang.tubobo.legwork.impl.mq.RmqTaskCallbackHandler"></bean>
+    <bean id="rmqTaskCallbackListenerAdapter"  class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+        <constructor-arg ref="rmqTaskCallbackHandler" />
+        <property name="defaultListenerMethod" value="handleMessage"></property>
+    </bean>
+
+    <bean id="rmqMerchantTaskCallbackListenerContainer"  class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+        <property name="queues" ref="legworkTaskCallbackQueue"></property>
+        <property name="connectionFactory" ref="rabbitmqConnectionFactory"></property>
+        <property name="messageListener" ref="rmqTaskCallbackListenerAdapter"></property>
+    </bean>
+
+
+    <rabbit:queue id="wxPayCallbackQueue" name="on_wxjsapi_pay_result" durable="true" auto-delete="false" exclusive="false" />
+    &lt;!&ndash;<bean id="wxPayCallbackListenerAdapter"  class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">&ndash;&gt;
+        &lt;!&ndash;<constructor-arg ref="rmqTaskCallbackHandler" />&ndash;&gt;
+        &lt;!&ndash;<property name="defaultListenerMethod" value="handleMessage"></property>&ndash;&gt;
+    &lt;!&ndash;</bean>&ndash;&gt;
+
+    &lt;!&ndash;<bean id="wxPayCallbackListenerContainer"  class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">&ndash;&gt;
+        &lt;!&ndash;<property name="queues" ref="wxPayCallbackQueue"></property>&ndash;&gt;
+        &lt;!&ndash;<property name="connectionFactory" ref="rabbitmqConnectionFactory"></property>&ndash;&gt;
+        &lt;!&ndash;<property name="messageListener" ref="wxPayCallbackListenerAdapter"></property>&ndash;&gt;
+    &lt;!&ndash;</bean>&ndash;&gt;
+   &lt;!&ndash; &lt;!&ndash; 创建rabbitTemplate 消息模板类 &ndash;&gt;
+    <rabbit:template id="addressInfoTemplate" connection-factory="rabbitmqConnectionFactory"  exchange="merchant_addressInfo_query_exchange" />
+    &lt;!&ndash; 生产者 队列声明&ndash;&gt;
+    <rabbit:queue id="addressInfoQueue" durable="true" auto-delete="false" exclusive="false" name="addressInfoQueue" />
+    &lt;!&ndash; work exchange &ndash;&gt;
+    <rabbit:direct-exchange name="merchant_addressInfo_query_exchange" durable="true" auto-delete="false">
+        <rabbit:bindings>
+            <rabbit:binding queue="addressInfoQueue" key="merchant_addressInfo_routeKey_normal"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>&ndash;&gt;
+</beans>-->

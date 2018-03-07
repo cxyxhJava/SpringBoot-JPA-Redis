@@ -1,0 +1,60 @@
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/rabbit
+		http://www.springframework.org/schema/rabbit/spring-rabbit-1.7.xsd"
+       default-lazy-init="true">
+
+    <import resource="rabbitmq-base.xml"/>
+    &lt;!&ndash; 创建rabbitTemplate 消息模板类 &ndash;&gt;
+    <rabbit:template id="delayMsgTemplate" connection-factory="rabbitmqConnectionFactory"  exchange="leg_payExpired_delay_exchange" />
+
+    &lt;!&ndash; 队列声明 &ndash;&gt;
+    <rabbit:queue id="queue_leg_payExpired_normal" name="queue_leg_payExpired_normal" durable="true" auto-delete="false" exclusive="false">
+        <rabbit:queue-arguments>
+            &lt;!&ndash;<entry key="routing-key" value="merchant_payExpired_routeKey_normal"/>&ndash;&gt;
+            <entry key="x-dead-letter-exchange" value="leg_payExpired_delay_exchange"/>
+            <entry key="x-dead-letter-routing-key" value="leg_payExpired_routeKey_delay"/>
+        </rabbit:queue-arguments>
+    </rabbit:queue>
+
+    &lt;!&ndash; 监听处理器 &ndash;&gt;
+    &lt;!&ndash; ################ 延迟队列生产者配置 ################ &ndash;&gt;
+    <rabbit:admin connection-factory="rabbitmqConnectionFactory" />
+    &lt;!&ndash;<bean id="jsonMessageConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter" />&ndash;&gt;
+    &lt;!&ndash;<rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" exchange="merchant_payExpired_delay_exchange" />&ndash;&gt;
+
+    <rabbit:queue id="queue_leg_payExpired_delay" name="queue_leg_payExpired_delay" durable="true" auto-delete="false" exclusive="false">
+        <rabbit:queue-arguments>
+            &lt;!&ndash;<entry key="x-message-ttl" value="${merchant.pay.expired.milliseconds}" value-type="java.lang.Long"/>&ndash;&gt;
+            <entry key="x-dead-letter-exchange" value="leg_payExpired_delay_exchange"/>
+            <entry key="x-dead-letter-routing-key" value="leg_payExpired_routeKey_normal"/>
+        </rabbit:queue-arguments>
+    </rabbit:queue>
+
+    &lt;!&ndash; work exchange &ndash;&gt;
+    <rabbit:direct-exchange name="leg_payExpired_delay_exchange" durable="true" auto-delete="false">
+        <rabbit:bindings>
+            <rabbit:binding queue="queue_leg_payExpired_normal" key="leg_payExpired_routeKey_normal"/>
+            <rabbit:binding queue="queue_leg_payExpired_delay" key="leg_payExpired_routeKey_delay"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+
+
+    <bean id="payTimeoutHandler" class="com.xinguang.tubobo.legwork.impl.mq.OrderPayTimeoutHandler"></bean>
+
+    <bean id="messageListenerAdapter"  class="org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter">
+        <constructor-arg ref="payTimeoutHandler" />
+        <property name="defaultListenerMethod" value="onMessage"></property>
+        &lt;!&ndash;<property name="messageConverter" ref="serializerMessageConverter"></property>&ndash;&gt;
+    </bean>
+
+    &lt;!&ndash; 用于消息的监听的容器类SimpleMessageListenerContainer,监听队列  queues可以传多个&ndash;&gt;
+    <bean id="listenerContainer"  class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+        <property name="queues" ref="queue_leg_payExpired_normal"></property>
+        <property name="connectionFactory" ref="rabbitmqConnectionFactory"></property>
+        <property name="messageListener" ref="messageListenerAdapter"></property>
+    </bean>
+    </beans>-->

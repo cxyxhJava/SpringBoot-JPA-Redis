@@ -1,0 +1,67 @@
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-lazy-init="false">
+
+    <import resource="spring-dubbo-consumer.xml"/>
+    <import resource="spring-dubbo-provider.xml"/>
+    <import resource="rabbitmq-delay.xml"/>
+    <import resource="rabbitmq-callback.xml"/>
+    <import resource="spring-context-esjob.xml"/>
+    <bean id="gdDistanceService" class="com.xinguang.tubobo.lbs.impl.GdDistanceServiceImpl">
+        <constructor-arg index="0" value="${gdKey}"/>
+    </bean>
+    <bean id="gdElectronicFenceService" class="com.xinguang.tubobo.lbs.impl.GdElectronicFenceServiceImpl">
+        <constructor-arg index="0" value="${legworkGDKey}"/>
+    </bean>
+
+    &lt;!&ndash;Disconf配置&ndash;&gt;
+    &lt;!&ndash; Disconf 静态扫描 (获取扫描对象) &ndash;&gt;
+    <bean id="disconfMgrBean" class="com.baidu.disconf.client.DisconfMgrBean" destroy-method="destroy">
+        &lt;!&ndash; 多个 package 用逗号分隔 &ndash;&gt;
+        <property name="scanPackage" value="com.xinguang.tubobo.legwork.impl.common.config" />
+    </bean>
+    &lt;!&ndash; Disconf 动态扫描 (注入数据至配置实体中) &ndash;&gt;
+    <bean id="disconfMgrBean2" class="com.baidu.disconf.client.DisconfMgrBeanSecond" init-method="init" destroy-method="destroy"></bean>
+
+    &lt;!&ndash;################################################################ &ndash;&gt;
+    &lt;!&ndash; 使用托管方式的disconf配置(无代码侵入, 配置更改会自动reload)&ndash;&gt;
+    <bean id="configproperties_disconf"
+          class="com.baidu.disconf.client.addons.properties.ReloadablePropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:common.properties</value>
+                &lt;!&ndash;<value>classpath:bizConfig.properties</value>&ndash;&gt;
+            </list>
+        </property>
+    </bean>
+
+    <bean id="propertyConfigurer" class="com.baidu.disconf.client.addons.properties.ReloadingPropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="propertiesArray">
+            <list>
+                <ref bean="configproperties_disconf"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="config" class="com.xinguang.tubobo.legwork.impl.common.config.Config">
+        <property name="gdKey" value="${gdKey}"/>
+        <property name="dataSourceUrl" value="${datasource.url}" />
+        <property name="dataSourceUserName" value="${datasource.username}" />
+        <property name="dataSourcePassword" value="${datasource.password}" />
+
+        <property name="redisHost" value="${redis.host}" />
+        <property name="redisPort" value="${redis.port}" />
+        <property name="redisPassword" value="${redis.password}" />
+        <property name="redisDbIndex" value="${redis.db.index}" />
+
+        <property name="rabbitmqAddress" value="${rabbitmq.address}" />
+        <property name="rabbitmqUsername" value="${rabbitmq.username}" />
+        <property name="rabbitmqPassword" value="${rabbitmq.password}" />
+        <property name="rabbitmqVirtualHost" value="${rabbitmq.virtualHost}" />
+    </bean>
+</beans>-->
