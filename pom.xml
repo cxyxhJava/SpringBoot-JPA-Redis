@@ -20,18 +20,14 @@
         <spingBootDemoApi.version>0.0.1-SNAPSHOT</spingBootDemoApi.version>
         <spingBootDemoCenter.version>0.0.1-SNAPSHOT</spingBootDemoCenter.version>
         <spingBootDemoWeb.version>0.0.1-SNAPSHOT</spingBootDemoWeb.version>
-
-
         <servlet.version>4.0.0-b07</servlet.version>
-
-
-
-
         <!--日志-->
         <slf4j.version>1.7.5</slf4j.version>
         <logback.ext.spring.version>0.1.1</logback.ext.spring.version>
         <logback.access.version>1.1.6</logback.access.version>
         <logback.classes.version>1.1.6</logback.classes.version>
+
+        <fastJson.version>1.2.46</fastJson.version>
     </properties>
 
     <parent>
@@ -54,15 +50,20 @@
                 <artifactId>demoCenter</artifactId>
                 <version>${spingBootDemoCenter.version}</version>
             </dependency>
-
-
-
-
             <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${servlet.version}</version>
+            </dependency>
+
+
+
+            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastJson.version}</version>
             </dependency>
 
 
@@ -178,7 +179,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+            <version>2.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>

@@ -1,23 +1,17 @@
-<!--
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-lazy-init="false">
 
-    <import resource="spring-dubbo-consumer.xml"/>
+<!--    <import resource="spring-dubbo-consumer.xml"/>
     <import resource="spring-dubbo-provider.xml"/>
     <import resource="rabbitmq-delay.xml"/>
     <import resource="rabbitmq-callback.xml"/>
-    <import resource="spring-context-esjob.xml"/>
-    <bean id="gdDistanceService" class="com.xinguang.tubobo.lbs.impl.GdDistanceServiceImpl">
-        <constructor-arg index="0" value="${gdKey}"/>
-    </bean>
-    <bean id="gdElectronicFenceService" class="com.xinguang.tubobo.lbs.impl.GdElectronicFenceServiceImpl">
-        <constructor-arg index="0" value="${legworkGDKey}"/>
-    </bean>
+    <import resource="spring-context-esjob.xml"/>-->
 
-    &lt;!&ndash;Disconf配置&ndash;&gt;
+
+    <!--&lt;!&ndash;Disconf配置&ndash;&gt;
     &lt;!&ndash; Disconf 静态扫描 (获取扫描对象) &ndash;&gt;
     <bean id="disconfMgrBean" class="com.baidu.disconf.client.DisconfMgrBean" destroy-method="destroy">
         &lt;!&ndash; 多个 package 用逗号分隔 &ndash;&gt;
@@ -46,22 +40,43 @@
                 <ref bean="configproperties_disconf"/>
             </list>
         </property>
+    </bean>-->
+
+    <!-- 定义受环境影响易变的变量 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="locations">
+            <list>
+                <value>classpath*:/config.properties</value>
+            </list>
+        </property>
     </bean>
 
-    <bean id="config" class="com.xinguang.tubobo.legwork.impl.common.config.Config">
-        <property name="gdKey" value="${gdKey}"/>
+    <bean id="config" class="com.frank.demo.center.config.Config">
         <property name="dataSourceUrl" value="${datasource.url}" />
-        <property name="dataSourceUserName" value="${datasource.username}" />
-        <property name="dataSourcePassword" value="${datasource.password}" />
+        <property name="dataUserName" value="${datasource.username}" />
+        <property name="dataPassword" value="${datasource.password}" />
 
         <property name="redisHost" value="${redis.host}" />
         <property name="redisPort" value="${redis.port}" />
         <property name="redisPassword" value="${redis.password}" />
         <property name="redisDbIndex" value="${redis.db.index}" />
+        <property name="redisTimeout" value="${redis.timeout}" />
+        <property name="redisMaxIdle" value="${redis.maxIdle}" />
+        <property name="redisMaxTotal" value="${redis.maxTotal}" />
+        <property name="redisMaxWaitMillis" value="${redis.maxWaitMillis}" />
+        <property name="redisMinEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}" />
+        <property name="redisNumTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}" />
+        <property name="redisTimeBetweenEvictionRunsMillis" value="${redis.minEvictableIdleTimeMillis}" />
+        <property name="redisTestOnBorrow" value="${redis.testOnBorrow}" />
+        <property name="redisTestWhileIdle" value="${redis.testWhileIdle}" />
 
-        <property name="rabbitmqAddress" value="${rabbitmq.address}" />
+<!--        <property name="rabbitmqAddress" value="${rabbitmq.address}" />
         <property name="rabbitmqUsername" value="${rabbitmq.username}" />
         <property name="rabbitmqPassword" value="${rabbitmq.password}" />
-        <property name="rabbitmqVirtualHost" value="${rabbitmq.virtualHost}" />
+        <property name="rabbitmqVirtualHost" value="${rabbitmq.virtualHost}" />-->
     </bean>
-</beans>-->
+</beans>
