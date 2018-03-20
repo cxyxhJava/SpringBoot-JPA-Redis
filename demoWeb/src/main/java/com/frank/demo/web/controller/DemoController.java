@@ -22,9 +22,8 @@ public class DemoController extends BaseUsedController<DemoReq> {
     @Override
     protected DemoResp doService(String userId, String account, DemoReq req) throws BaseException {
         DemoResp demoResp = new DemoResp();
-
         redisUtil.set("test1","test1");
-      demoResp.setTest(redisUtil.get("test1"));
+        demoResp.setTest(redisUtil.get("test1"));
         return demoResp;
     }
 }

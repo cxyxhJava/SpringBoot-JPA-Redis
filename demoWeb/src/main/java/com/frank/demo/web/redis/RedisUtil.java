@@ -17,5 +17,23 @@ public class RedisUtil {
     public String get(String key){
         return  stringRedisTemplate.opsForValue().get(key);
     }
+    /**
+     * 递减操作
+     * @param key
+     * @param by
+     * @return
+     */
+    public  double decr(String key, double by){
+        return stringRedisTemplate.opsForValue().increment(key, -by);
+    }
+    /**
+     * 递增操作
+     * @param key
+     * @param by
+     * @return
+     */
+    public  double incr(String key, double by){
+        return stringRedisTemplate.opsForValue().increment(key, by);
+    }
 
 }

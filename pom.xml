@@ -152,7 +152,7 @@
     </pluginRepositories>
 
     &lt;!&ndash; 发布仓库配置 &ndash;&gt;
-    <distributionManagement>
+    <   >
         <repository>
             <id>releases</id>
             <name>user release resp</name>

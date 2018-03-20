@@ -15,6 +15,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -23,6 +24,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.JedisPoolConfig;
@@ -32,7 +34,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * Created by yangxb on 2018/2/10.
  */
 @Service
-//@EnableCaching//开启缓存扫描
+@EnableCaching//开启缓存扫描
 @ComponentScan //conponent扫描
 @Configuration //设置为配置文件
 @EnableAutoConfiguration //开启配置文件自动注入
@@ -103,7 +105,7 @@ public class Application extends SpringBootServletInitializer {
      */
 
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
+    public JedisConnectionFactory redisConnectionFactory() {
         JedisConnectionFactory factory = new JedisConnectionFactory();
 
         factory.setHostName(config.getRedisHost());
@@ -112,15 +114,12 @@ public class Application extends SpringBootServletInitializer {
         factory.setDatabase(config.getRedisDbIndex());
        factory.setUsePool(true);
         //factory.setUsePool(false);
-
-        factory.setPoolConfig(poolCofig());
-
+        factory.setPoolConfig(poolConfig());
         factory.afterPropertiesSet();
-
         return factory;
     }
 
-    public JedisPoolConfig poolCofig() {
+    public JedisPoolConfig poolConfig() {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxIdle(config.getRedisMaxIdle());
         poolConfig.setMaxTotal(config.getRedisMaxTotal());
@@ -137,10 +136,10 @@ public class Application extends SpringBootServletInitializer {
         return template;
     }
 
-    @Bean
+
+   @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-
         // Number of seconds before expiration. Defaults to unlimited (0)
         cacheManager.setDefaultExpiration(3000); // Sets the default expire time (in seconds)
         return cacheManager;
